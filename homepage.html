@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zhatta - Homepage</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <a href="/edit_profile">Edit Profile</a>
+            <a href="/settings">Settings</a>
+            <a href="/logout">Logout</a>
+            <input type="text" placeholder="Search..." class="search-box">
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar">
+            <ul>
+                <li><a href="/home">HOME</a></li>
+                <li><a href="/explore">EXPLORE</a></li>
+                <li><a href="/notifications">NOTIFICATIONS</a></li>
+                <li><a href="/profile">PROFILE</a></li>
+                <li><a href="/more">MORE</a></li>
+            </ul>
+            <div class="user-profile">
+                <img src="{{ user.profile_pic }}" alt="Profile Picture">
+                <p>{{ user.full_name }}</p>
+                <p>@{{ user.nickname }}</p>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main>
+            <div class="shout-box">
+                <img src="{{ user.profile_pic }}" alt="Profile Picture" class="profile-pic">
+                <textarea placeholder="Shout something..." maxlength="180"></textarea>
+                <button type="submit">Shout</button>
+            </div>
+            
+            <div class="feed">
+                {% for shout in shouts %}
+                <div class="shout">
+                    <div class="shout-header">
+                        <img src="{{ shout.user.profile_pic }}" alt="Profile Picture" class="profile-pic">
+                        <p><strong>{{ shout.user.full_name }}</strong> @{{ shout.user.nickname }}</p>
+                    </div>
+                    <p>{{ shout.text }}</p>
+                    <div class="shout-actions">
+                        <button>Like ({{ shout.likes }})</button>
+                        <button>Dislike ({{ shout.dislikes }})</button>
+                        <button>Favorite</button>
+                        {% if shout.user.id == user.id %}
+                        <button>Delete</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+        
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <h3>Trending</h3>
+            <ul>
+                {% for tag in trending %}
+                <li>#{{ tag.name }} ({{ tag.count }})</li>
+                {% endfor %}
+            </ul>
+        </aside>
+    </div>
+</body>
+</html>
+
