@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Zhatta</title>
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>{{ user.full_name }}'s Profile</h1>
+    </header>
+    
+    <main class="profile-container">
+        <section class="profile-info">
+            <img src="{{ user.profile_pic }}" alt="Profile Picture" class="profile-pic">
+            <h2>{{ user.full_name }}</h2>
+            <p>@{{ user.nickname }}</p>
+            <p>Location: {{ user.city }}, {{ user.country }}</p>
+            <p>Joined: {{ user.join_date }}</p>
+        </section>
+        
+        <section class="profile-actions">
+            <a href="/edit_profile" class="btn">Edit Profile</a>
+            <a href="/settings" class="btn">Settings</a>
+        </section>
+        
+        <section class="profile-moods">
+            <h2>Recent Moods</h2>
+            <div class="moods">
+                {% for shout in user.shouts %}
+                <div class="shout">
+                    <p>{{ shout.text }}</p>
+                    <div class="shout-actions">
+                        <button>Like ({{ shout.likes }})</button>
+                        <button>Dislike ({{ shout.dislikes }})</button>
+                        <button>Favorite</button>
+                        {% if shout.user_id == user.id %}
+                        <button>Delete</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
+
